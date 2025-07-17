@@ -21,5 +21,5 @@ void Payload::tampilkanPayload(){
   Serial.println("Data sent: " + doc.as<String>()); 
   Serial.println();
   payload.seuqence++;
-  delay(5000);
+  //delay(5000);
 }
