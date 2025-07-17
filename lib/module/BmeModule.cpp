@@ -1,6 +1,7 @@
 #include "BmeModule.h"
 #include "../../src/main.h"
 #include "AttributesModule.h"
+#include <string.h>
 
 void BmeModule::injectBME(float temperature, float humidity)
 {
@@ -11,15 +12,15 @@ void BmeModule::injectBME(float temperature, float humidity)
 void BmeModule::setupBME(int address)
 {
     bool status = BmeModule::bme.begin(0x76);
-    Serial.println("Membaca data GPS...");
     while (!status)
     {
         Serial.println("BME280 tidak ditemukan, cek koneksi!");
         delay(1000);
     }
     BmeModule::injectBME(bme.readTemperature(), bme.readHumidity());
-    AttributesModule* attributesModule;
-    attributesModule->injectAttributes(1, "testing_vehicle");
+    #if defined(VehicleID) && defined(VehicleName)
+    AttributesModule::injectAttributes(int(VehicleID), String(VehicleName));
+    #endif
 };
 
 BmeModule::BmeModule(){};

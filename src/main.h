@@ -1,6 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
-#include "../lib/shared/common.h"
+#include "../lib/module/MessageModule.h"
 
 extern Payload payload;
 

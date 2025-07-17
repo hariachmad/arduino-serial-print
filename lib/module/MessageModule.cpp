@@ -1,10 +1,8 @@
-#include "../../src/main.h"
-#include "common.h"
+#include "MessageModule.h"
 #include <ArduinoJson.h>
+#include "../../src/main.h"
 
-
-
-void Payload::tampilkanPayload(){
+void Payload::dispatch(){
   StaticJsonDocument<256> doc;
 
   doc["sequence"] = payload.seuqence;

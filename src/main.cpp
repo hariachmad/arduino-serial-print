@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "../lib/shared/common.h"
+#include "../lib/module/MessageModule.h"
 #include "../lib/module/BmeModule.h"
 #include "../lib/module/GpsModule.h"
 
@@ -25,13 +25,13 @@ void loop()
     {
       if(gpsModule.getGPS().location.isValid()){
         gpsModule.injectGPS(gpsModule.getGPS().location.lat(), gpsModule.getGPS().location.lng(), bmeAltitude);
-        payload.tampilkanPayload();
+        payload.dispatch();
       }else{
-        payload.tampilkanPayload();
+        payload.dispatch();
       }      
     }
-    
   }
+  Serial.println("Membaca data GPS...");
   if (millis() > 5000 && gpsModule.getGPS().charsProcessed() < 10)
   {
     Serial.println("GPS tidak terhubung!");

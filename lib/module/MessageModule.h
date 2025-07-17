@@ -1,10 +1,12 @@
+#include <Arduino.h>
+
 #ifndef COMMON_H
 #define COMMON_H
 
 struct Payload
 {
   int id;
-  char* name;
+  String name;
   int seuqence = 1;
   float temperature;
   float humidity;
@@ -12,7 +14,7 @@ struct Payload
   double longitude = 0.0;
   double altitude = 0.0;
 
-  void tampilkanPayload();
+  void dispatch();
 };
 
 #endif
