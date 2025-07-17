@@ -19,6 +19,7 @@ void loop()
 {
   while (Serial1.available() > 0)
   {
+    bmeModule.injectBME(bmeModule.getBME().readTemperature(), bmeModule.getBME().readHumidity());
     double bmeAltitude = bmeModule.getBME().readAltitude(1013.25);
     char c = Serial1.read();
     if (gpsModule.getGPS().encode(c))

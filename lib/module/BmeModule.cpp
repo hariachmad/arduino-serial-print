@@ -17,7 +17,7 @@ void BmeModule::setupBME(int address)
         Serial.println("BME280 tidak ditemukan, cek koneksi!");
         delay(1000);
     }
-    BmeModule::injectBME(bme.readTemperature(), bme.readHumidity());
+    // BmeModule::injectBME(bme.readTemperature(), bme.readHumidity());
     #if defined(VehicleID) && defined(VehicleName)
     AttributesModule::injectAttributes(int(VehicleID), String(VehicleName));
     #endif
