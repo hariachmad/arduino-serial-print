@@ -2,7 +2,7 @@
 #include <ArduinoJson.h>
 #include "../../src/main.h"
 
-void Payload::dispatch(){
+void Payload::dispatch(int interval){
   StaticJsonDocument<256> doc;
 
   doc["sequence"] = payload.seuqence;
@@ -19,5 +19,5 @@ void Payload::dispatch(){
   Serial.println("Data sent: " + doc.as<String>()); 
   Serial.println();
   payload.seuqence++;
-  //delay(5000);
+  delay(interval);
 }

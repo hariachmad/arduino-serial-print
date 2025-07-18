@@ -12,6 +12,7 @@ void BmeModule::injectBME(float temperature, float humidity)
 void BmeModule::setupBME(int address)
 {
     bool status = BmeModule::bme.begin(0x76);
+    Serial.println("Setup BME");
     while (!status)
     {
         Serial.println("BME280 tidak ditemukan, cek koneksi!");

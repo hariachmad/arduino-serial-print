@@ -14,7 +14,7 @@ struct Payload
   double longitude = 0.0;
   double altitude = 0.0;
 
-  void dispatch();
+  void dispatch(int interval);
 };
 
 #endif

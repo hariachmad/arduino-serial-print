@@ -1,27 +1,32 @@
-#include "buttonmodule.h"
+#include "ButtonModule.h"
 #include <Arduino.h>
 
-SoftwareSerial gpsSerial(GPS_RX_PIN, GPS_TX_PIN);
+// SoftwareSerial gpsSerial(GPS_RX_PIN, GPS_TX_PIN);
 Button::Button(int pinNumber)
 {
     pin = pinNumber;
-    previousState = HIGH;
+    currentState= HIGH;
+    previousState= LOW;
 }
 
 void Button::begin()
 {
-    pinMode(pin, INPUT);
+    pinMode(pin, INPUT_PULLUP);
+}
+
+void Button::observer()
+{
+    previousState = currentState;
+    currentState= digitalRead(pin);
+    delay(50);
 }
 
 bool Button::isPressed()
 {
-    bool curentState = digitalRead(pin);
-    if (previousState == HIGH && curentState == LOW)
+    if (previousState == HIGH && currentState == LOW)
     {
-        delay(50); //Deboumce
-        previousState = curentState;
+        Serial.println("Button Pressed");
         return true;
     }
-    previousState = curentState;
     return false;
 }
