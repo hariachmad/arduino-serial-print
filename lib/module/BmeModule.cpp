@@ -2,29 +2,36 @@
 #include "../../src/main.h"
 #include "AttributesModule.h"
 #include <string.h>
+#include "../package/Package.h"
 
-void BmeModule::injectBME(float temperature, float humidity)
+void BmeModule::inject()
 {
-    payload.temperature = temperature;
-    payload.humidity = humidity;
+    Package::package["humidity"] = humidity;
+    Package::package["temperature"] = temperature;
+    Package::package["altitude"] = altitude;
 }
 
-void BmeModule::setupBME(int address)
+void BmeModule::invoke(const void* param){
+    const BmeParam* params = static_cast<const BmeParam*>(param);
+    humidity = params->humidity;
+    temperature = params->temperature;
+    altitude = params->altitude;
+}
+
+void BmeModule::setup()
 {
-    bool status = BmeModule::bme.begin(0x76);
-    Serial.println("Setup BME");
+    bool status = BmeModule::bme.begin(BmeModule::address);
+    Serial.println("Setuping BME");
     while (!status)
     {
         Serial.println("BME280 tidak ditemukan, cek koneksi!");
         delay(1000);
     }
-    // BmeModule::injectBME(bme.readTemperature(), bme.readHumidity());
-    #if defined(VehicleID) && defined(VehicleName)
-    AttributesModule::injectAttributes(int(VehicleID), String(VehicleName));
-    #endif
 };
 
-BmeModule::BmeModule(){};
+BmeModule::BmeModule(int address){
+    address = address;
+};
 
 Adafruit_BME280& BmeModule::getBME(){
     return BmeModule::bme;

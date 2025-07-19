@@ -1,9 +1,17 @@
-#include <Arduino.h>
-
 #ifndef ATTRIBUTES_MODULE_H
 #define ATTRIBUTES_MODULE_H
-class AttributesModule{
-    public:
-        static void injectAttributes(int id, String name);
+
+#include <Arduino.h>
+#include <ISensor.h>
+class AttributesModule : public ISensor
+{
+private:
+    int id;
+    String name;
+
+public:
+    void inject() override;
+    void setup() override;
+    void invoke(const void *param) override;
 };
 #endif

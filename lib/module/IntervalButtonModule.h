@@ -1,3 +1,5 @@
+#ifndef INTERVAL_BUTTON_MODULE_H
+#define INTERVAL_BUTTON_MODULE_H
 #include <Arduino.h>
 
 class IntervalButtonModule
@@ -17,3 +19,5 @@ public:
     void begin();
     void handleChangeState(int state);
 };
+
+#endif
