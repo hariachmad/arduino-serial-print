@@ -1,8 +1,8 @@
 #include "SensorService.h"
 #include "ISensor.h"
 
-SensorService::SensorService(ISensor& sensor){
-    sensor = sensor;  
+SensorService::SensorService(ISensor* _sensor){
+    sensor = _sensor;  
 };
 
 void SensorService::setup(){

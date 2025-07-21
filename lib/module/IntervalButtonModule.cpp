@@ -1,5 +1,5 @@
 #include "IntervalButtonModule.h"
-#include <Arduino.h>>
+#include <Arduino.h>
 
 IntervalButtonModule::IntervalButtonModule(int pinNumber)
 {

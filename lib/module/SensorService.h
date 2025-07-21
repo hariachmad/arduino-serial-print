@@ -6,7 +6,7 @@ class SensorService{
     private:
         ISensor* sensor;
     public:
-        SensorService(ISensor& sensor);
+        SensorService(ISensor* sensor);
         void inject();
         void setup();
         void invoke(const void* param);

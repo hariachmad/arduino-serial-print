@@ -15,27 +15,24 @@ BmeModule bmeModule(0x76);
 GpsModule gpsModule;
 AttributesModule attributesModule;
 
-SensorService bmeSensorService(bmeModule);
-SensorService gpsSensorService(gpsModule);
-SensorService attributesSensorService(attributesModule);
+SensorService bmeSensorService(&bmeModule);
+SensorService gpsSensorService(&gpsModule);
+SensorService attributesSensorService(&attributesModule);
 
-SensorService services[3] = {bmeSensorService,gpsSensorService,attributesSensorService};
+SensorService services[3] = {bmeSensorService, gpsSensorService, attributesSensorService};
 
 Scheduler runner;
 
-Task injectorTask(5000,TASK_FOREVER,[](){
-  InjectSensorTask::injectSensorTask(services,3);
-},&runner);
+Task injectorTask(5000, TASK_FOREVER, []()
+                  { InjectSensorTask::injectSensorTask(services, 3); }, &runner);
 
-Task gpsInvokerTask(1000,TASK_FOREVER,[](){
-  GpsInvokerTask::gpsInvokerTask(&gpsSensorService);
-},&runner);
+Task gpsInvokerTask(1000, TASK_FOREVER, []()
+                    { GpsInvokerTask::gpsInvokerTask(&gpsSensorService); }, &runner);
 
-Task bmeInvokerTask(2000,TASK_FOREVER,[](){
-  BmeInvokerTask::bmeInvokerTask(&bmeSensorService);
-},&runner);
+Task bmeInvokerTask(2000, TASK_FOREVER, []()
+                    { BmeInvokerTask::bmeInvokerTask(&bmeSensorService); }, &runner);
 
-//AttributesModule sudah melakukan invoke saat setup
+// AttributesModule sudah melakukan invoke saat setup
 
 void setup()
 {
@@ -43,9 +40,13 @@ void setup()
   Serial1.begin(9600);
   Serial2.begin(115200);
 
-  for (SensorService service : services){
-    service.setup();
-  }
+  Serial.print("setup begin");
+
+  bmeSensorService.setup();
+  gpsSensorService.setup();
+  attributesSensorService.setup(); 
+
+  Serial.println("adding Tasks...");
 
   runner.addTask(injectorTask);
   runner.addTask(gpsInvokerTask);
@@ -54,6 +55,9 @@ void setup()
   injectorTask.enable();
   gpsInvokerTask.enable();
   bmeInvokerTask.enable();
+
+  Serial.println("Setup completed successfully");
+  delay(1000);
 }
 
 void loop()
