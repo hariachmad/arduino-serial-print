@@ -1,4 +1,5 @@
 #include "PackageSenderTask.h"
+#include "../lib/package/Package.h"
 #include <Arduino.h>
 
 void PackageSenderTask::sendPackage(StaticJsonDocument<200> package) {

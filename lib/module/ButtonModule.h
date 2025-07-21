@@ -1,6 +1,8 @@
 #ifndef BUTTON_H
 #define BUTTON_H
-class Button
+
+#include "../observer/Subject.h"
+class Button : public Subject
 {
     private:
         int pin;
@@ -10,7 +12,7 @@ class Button
         Button(int pinNumber);
         void observer(); 
         void begin();
-        bool isPressed();
+        bool isPressed();        
 };
 
 #endif

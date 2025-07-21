@@ -57,12 +57,12 @@ void setup()
   runner.addTask(injectorTask);
   runner.addTask(gpsInvokerTask);
   runner.addTask(bmeInvokerTask);
-  runner.addTask(packageSenderTask);
+  // runner.addTask(packageSenderTask);
 
   injectorTask.enable();
   gpsInvokerTask.enable();
   bmeInvokerTask.enable();
-  packageSenderTask.enable();
+  // packageSenderTask.enable();
 
   Serial.println("Setup completed successfully");
   delay(1000);
