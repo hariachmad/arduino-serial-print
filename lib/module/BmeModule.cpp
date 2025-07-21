@@ -29,8 +29,8 @@ void BmeModule::setup()
     }
 };
 
-BmeModule::BmeModule(int address){
-    address = address;
+BmeModule::BmeModule(int _address){
+    address = _address;
 };
 
 Adafruit_BME280& BmeModule::getBME(){

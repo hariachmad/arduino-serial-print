@@ -3,6 +3,7 @@
 
 void GpsInvokerTask::gpsInvokerTask(SensorService *service)
 {
+    Serial.println("Invoking GPS...");
     while (Serial1.available() > 0)
     {
         char c = Serial1.read();
@@ -22,4 +23,5 @@ void GpsInvokerTask::gpsInvokerTask(SensorService *service)
                 ;
         }
     }
+    Serial.println("GPS Invoked");
 }
