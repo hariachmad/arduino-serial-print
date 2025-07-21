@@ -5,11 +5,9 @@
 // SoftwareSerial gpsSerial(GPS_RX_PIN, GPS_TX_PIN);
 Button::Button(int pinNumber)
 {
-    pin = pinNumber;
-    currentState= HIGH;
-    previousState= LOW;
-
+    pin = pinNumber;    
     attach(new ButtonObserver("Button"));
+    begin();
 }
 
 void Button::begin()
@@ -19,22 +17,10 @@ void Button::begin()
 
 void Button::observer()
 {
-    previousState = currentState;
-    currentState= digitalRead(pin);
-    delay(50);
-    if(isPressed){
-        for(IObserver* observer : observers){
-            observer->update();
-        }
-    }
-}
-
-bool Button::isPressed()
-{
-    if (previousState == HIGH && currentState == LOW)
-    {
-        Serial.println("Button Pressed");
-        return true;
-    }
-    return false;
+    currentState = digitalRead(pin);
+    if (currentState == LOW)
+    {   
+        delay(200);
+        this->notify();
+    } 
 }

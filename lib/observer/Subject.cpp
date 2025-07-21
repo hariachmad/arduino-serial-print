@@ -24,10 +24,10 @@ void Subject::detach(IObserver *observer)
     }
 }
 
-void Subject::notify(String message)
+void Subject::notify()
 {
     for (int i = 0; i < observerCount; i++)
     {
-        observers[i]->update(message);
+        observers[i]->update();
     }
 }

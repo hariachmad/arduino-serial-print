@@ -1,4 +1,3 @@
-#include "../../src/main.h"
 #include "AttributesModule.h"
 #include <Arduino.h>
 #include "../package/Package.h"

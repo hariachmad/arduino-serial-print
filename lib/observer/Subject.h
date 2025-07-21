@@ -13,7 +13,7 @@ public:
     
     void detach(IObserver* observer) ;
     
-    void notify(String message);
+    void notify();
 
 protected:
     IObserver* observers[MAX_OBSERVERS];

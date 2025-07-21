@@ -1,5 +1,4 @@
 #include "BmeModule.h"
-#include "../../src/main.h"
 #include "AttributesModule.h"
 #include <string.h>
 #include "../package/Package.h"

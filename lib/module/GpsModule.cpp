@@ -1,5 +1,4 @@
 #include "GpsModule.h"
-#include "../../src/main.h"
 #include "../package/Package.h"
 
 void GpsModule::setup(){

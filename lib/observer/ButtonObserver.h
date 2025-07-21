@@ -3,8 +3,8 @@
 
 #include "IObserver.h"
 #include <Arduino.h>
-#include "../lib/task/PackageSenderTask.h"
-#include "../lib/task/PackageAllocTask.h"
+#include "../task/PackageSenderTask.h"
+#include "../task/PackageAllocTask.h"
 #include "../package/Package.h"
 
 
