@@ -15,6 +15,7 @@ void BmeModule::invoke(const void* param){
     humidity = params->humidity;
     temperature = params->temperature;
     altitude = params->altitude;
+    delete params;
 }
 
 void BmeModule::setup()

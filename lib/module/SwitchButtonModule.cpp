@@ -23,7 +23,9 @@ void SwitchButtonModule::observer()
         this->notify();
     }else{
        state = HIGH; 
-    }
+    }    
+}
 
-    
+SwitchButtonModule::~SwitchButtonModule(){
+    // 
 }

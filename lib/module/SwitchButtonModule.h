@@ -10,7 +10,8 @@ class SwitchButtonModule : public Subject
     public:
         SwitchButtonModule(int pinNumber);
         void observer(); 
-        void begin();        
+        void begin();
+        ~SwitchButtonModule();        
 };
 
 #endif

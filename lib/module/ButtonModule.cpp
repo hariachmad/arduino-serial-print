@@ -24,3 +24,7 @@ void Button::observer()
         this->notify();
     } 
 }
+
+Button::~Button() {
+    // 
+}

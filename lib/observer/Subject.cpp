@@ -31,3 +31,11 @@ void Subject::notify()
         observers[i]->update();
     }
 }
+
+Subject::~Subject()
+{
+    for (int i = 0; i < observerCount; ++i)
+    {
+        delete observers[i];
+    }
+}

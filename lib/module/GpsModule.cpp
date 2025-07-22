@@ -15,6 +15,7 @@ void GpsModule::invoke(const void* param){
 
   longitude = params->longitude;
   latitude = params->latitude;
+  delete params;
 }
 
 TinyGPSPlus& GpsModule::getGPS(){

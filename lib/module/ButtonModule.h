@@ -12,7 +12,7 @@ class Button : public Subject
         Button(int pinNumber);
         void observer(); 
         void begin();
-        bool isPressed();        
+        ~Button();      
 };
 
 #endif
