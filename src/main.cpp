@@ -24,7 +24,7 @@ Button buttonModule(50);
 
 #ifdef ESP32
 SwitchButtonModule switchButtonModule(19);
-Button buttonModule(18);
+Button buttonModule(12);
 #endif
 
 BmeModule bmeModule(0x76);
@@ -72,9 +72,18 @@ Task stateObserverTask(100, TASK_FOREVER, []()
 
 void setup()
 {
+  #ifdef ARDUINO_ATMEGA2560
   Serial.begin(115200);
   Serial1.begin(9600);
   Serial2.begin(115200);
+  #endif
+
+  #ifdef ESP32
+  Serial.begin(115200);
+  Serial1.begin(9600, SERIAL_8N1, 16, 17);
+  Serial2.begin(115200);
+  #endif
+
 
   Serial.println("setup begin");
 

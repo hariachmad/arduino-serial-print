@@ -1,5 +1,6 @@
 #include "GpsInvokerTask.h"
 #include "../module/GpsModule.h"
+#include "../module/LedModule.h"
 
 void GpsInvokerTask::gpsInvokerTask(SensorService *service)
 {
@@ -18,6 +19,8 @@ void GpsInvokerTask::gpsInvokerTask(SensorService *service)
         }
         if (millis() > 5000 && sensor->getGPS().charsProcessed() < 10)
         {
+            LedModule ledModule(14);
+            ledModule.on();
             Serial.println("GPS tidak terhubung!");
             while (true)
                 ;

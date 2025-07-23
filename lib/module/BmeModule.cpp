@@ -2,6 +2,7 @@
 #include "AttributesModule.h"
 #include <string.h>
 #include "../package/Package.h"
+#include "LedModule.h"
 
 void BmeModule::inject()
 {
@@ -15,17 +16,21 @@ void BmeModule::invoke(const void* param){
     humidity = params->humidity;
     temperature = params->temperature;
     altitude = params->altitude;
-    delete params;
+    // delete params;
 }
 
 void BmeModule::setup()
 {
+    LedModule ledModule(14);
     bool status = BmeModule::bme.begin(BmeModule::address);
     Serial.println("Setuping BME");
     while (!status)
     {
         Serial.println("BME280 tidak ditemukan, cek koneksi!");
-        delay(1000);
+        ledModule.on();
+        delay(500);
+        ledModule.off();
+        delay(500);
     }
 };
 
