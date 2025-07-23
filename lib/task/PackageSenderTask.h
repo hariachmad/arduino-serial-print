@@ -2,10 +2,12 @@
 #define PACKAGE_SENDER_TASK_H
 
 #include "Package.h"
+#include "../module/MqttModule.h"
 
 class PackageSenderTask{
     public:
-        static void sendPackage();
+        static void sendPackage(MqttModule*mqttModule);
+
 };
 
 #endif

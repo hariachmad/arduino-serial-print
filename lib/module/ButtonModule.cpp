@@ -3,10 +3,10 @@
 #include "../observer/ButtonObserver.h"
 
 // SoftwareSerial gpsSerial(GPS_RX_PIN, GPS_TX_PIN);
-Button::Button(int pinNumber)
+Button::Button(int pinNumber, MqttModule* _mqttModule)
 {
     pin = pinNumber;    
-    attach(new ButtonObserver("Button"));
+    attach(new ButtonObserver("Button",_mqttModule));
     begin();
 }
 

@@ -15,21 +15,27 @@
 #include "../lib/task/PackageSenderTask.h"
 #include "../lib/module/SwitchButtonModule.h"
 #include "../lib/module/SwitchButtonModule.h"
+#include "../lib/task/WifiConnectionTask.h"
 #include "../lib/context/StateContext.h"
+#include "../lib/module/MqttModule.h"
 
 #ifdef ARDUINO_ATMEGA2560
 SwitchButtonModule switchButtonModule(51);
 Button buttonModule(50);
 #endif
 
-#ifdef ESP32
-SwitchButtonModule switchButtonModule(19);
-Button buttonModule(12);
-#endif
+
 
 BmeModule bmeModule(0x76);
 GpsModule gpsModule;
 AttributesModule attributesModule;
+WifiModule wifiModule;
+MqttModule mqttModule(&wifiModule);
+
+#ifdef ESP32
+SwitchButtonModule switchButtonModule(19);
+Button buttonModule(12, &mqttModule);
+#endif
 
 SensorService bmeSensorService(&bmeModule);
 SensorService gpsSensorService(&gpsModule);
@@ -49,13 +55,17 @@ Task injectorTask(5000, TASK_FOREVER, []()
                   { InjectSensorTask::injectSensorTask(services, 3); }, &runner);
 
 Task packageSenderTask(100, TASK_FOREVER, []()
-                       { PackageSenderTask::sendPackage(); }, &runner);
+                       { PackageSenderTask::sendPackage(&mqttModule); }, &runner);
 
 Task buttonObserverTask(100, TASK_FOREVER, []()
                         { buttonModule.observer(); }, &runner);
 
 Task switchObserverTask(100, TASK_FOREVER, []()
                         { switchButtonModule.observer(); }, &runner);
+
+Task wifiConnectionTask(100, TASK_FOREVER,[](){
+  WifiConnectionTask::wifiConnectionTask(&wifiModule);
+}, &runner);
 
 Task stateObserverTask(100, TASK_FOREVER, []()
                        {
@@ -100,6 +110,7 @@ void setup()
   runner.addTask(buttonObserverTask);
   runner.addTask(switchObserverTask);
   runner.addTask(stateObserverTask);
+  runner.addTask(wifiConnectionTask);
 
   injectorTask.enable();
   gpsInvokerTask.enable();
@@ -108,6 +119,7 @@ void setup()
   buttonObserverTask.enable();
   switchObserverTask.enable();
   stateObserverTask.enable();
+  wifiConnectionTask.enable();
 
   Serial.println("Setup completed successfully");
   delay(1000);
