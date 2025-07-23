@@ -15,7 +15,7 @@ public:
     
     void notify();
 
-    virtual ~Subject() {}
+    virtual ~Subject();
 
 protected:
     IObserver* observers[MAX_OBSERVERS];

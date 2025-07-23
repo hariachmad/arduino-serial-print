@@ -17,11 +17,19 @@
 #include "../lib/module/SwitchButtonModule.h"
 #include "../lib/context/StateContext.h"
 
+#ifdef ARDUINO_ATMEGA2560
 SwitchButtonModule switchButtonModule(51);
+Button buttonModule(50);
+#endif
+
+#ifdef ESP32
+SwitchButtonModule switchButtonModule(19);
+Button buttonModule(18);
+#endif
+
 BmeModule bmeModule(0x76);
 GpsModule gpsModule;
 AttributesModule attributesModule;
-Button buttonModule(50);
 
 SensorService bmeSensorService(&bmeModule);
 SensorService gpsSensorService(&gpsModule);
