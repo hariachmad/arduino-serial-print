@@ -1,7 +1,6 @@
 #include "WifiModule.h"
 
 WifiModule::WifiModule() {
-    setup();
 }
 
 void WifiModule::setup() {

@@ -2,14 +2,11 @@
 
 MqttModule::MqttModule(WifiModule *_wifiModule)
 {
-    PubSubClient _client(*_wifiModule->getClient());
+    this->client = new PubSubClient(*this->wifiModule->getClient());
     this->wifiModule = _wifiModule;
-    this->client = &_client;
-    this->client->setServer(mqttServer, mqttPort);
-    this->client->setCallback(callback);
 }
 
-void MqttModule::reconnect()
+void MqttModule::reconnect(PubSubClient *client)
 {
     while (!client->connected())
     {
@@ -17,7 +14,7 @@ void MqttModule::reconnect()
         if (client->connect("esp32client"))
         {
             Serial.println("terhubung");
-            client->subscribe("remote");
+            client->subscribe("psilre32");
         }
         else
         {
@@ -29,7 +26,7 @@ void MqttModule::reconnect()
     }
 }
 
-void MqttModule::publish(const char *topic, const char *message)
+void MqttModule::publish(PubSubClient* client,const char *topic, const char *message)
 {
     client->publish(topic, message);
 }
@@ -46,11 +43,19 @@ void MqttModule::callback(char *topic, uint8_t *payload, unsigned int length)
     Serial.println();
 }
 
-void MqttModule::loop()
+void MqttModule::setup(PubSubClient *client)
 {
-    if (!client->connected())
-    {
-        reconnect();
-    }
-    client->loop();
+    const char *mqttServer = "192.168.1.21";
+    const int mqttPort = 1883;
+    client->setServer(mqttServer, mqttPort);
+    client->setCallback(callback);
 }
+
+// void MqttModule::loop()
+// {
+//     if (!client->connected())
+//     {
+//         // reconnect();
+//     }
+//     client->loop();
+// }

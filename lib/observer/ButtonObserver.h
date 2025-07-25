@@ -13,11 +13,9 @@ class ButtonObserver : public IObserver
 {
 private:
     String name;
-    MqttModule* mqttModule;
-
+    PubSubClient* client;
 public:
-    ButtonObserver(String _name,MqttModule*mqttModule);
-
+    ButtonObserver(String _name, PubSubClient* _client) : name(_name), client(_client) {};   
     void update() override;
 };
 

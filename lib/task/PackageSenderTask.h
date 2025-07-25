@@ -6,8 +6,7 @@
 
 class PackageSenderTask{
     public:
-        static void sendPackage(MqttModule*mqttModule);
-
+        static void sendPackage(PubSubClient* client);
 };
 
 #endif

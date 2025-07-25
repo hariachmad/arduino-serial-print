@@ -8,15 +8,13 @@
 class MqttModule{
     private:
         PubSubClient* client;
-        const char* mqttServer = "broker.emqx.io";
-        const int mqttPort = 1883;
         WifiModule* wifiModule;
     public:
         MqttModule(WifiModule* _wifiModule);
-        void reconnect();
+        static void reconnect(PubSubClient* client);
         static void callback(char *topic, uint8_t*payload, unsigned int length);
-        void publish(const char *topic,const char * message);
-        void loop();
+        static void setup(PubSubClient* client);
+        static void publish(PubSubClient* client,const char *topic, const char *message);
 };
 
 #endif

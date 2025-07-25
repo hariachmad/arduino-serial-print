@@ -3,13 +3,14 @@
 
 #include <Arduino.h>
 #include <ISensor.h>
+
 class AttributesModule : public ISensor
 {
 private:
     int id;
     String name;
-
 public:
+    String generateRandomString(int length);
     void inject() override;
     void setup() override;
     void invoke(const void *param) override;

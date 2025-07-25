@@ -5,10 +5,9 @@
 class WifiModule
 {
 private:
-    const char *ssid = "hidupjokowi";
+    const char *ssid = "Parametrik01";
     const char *password = "tabassam";
     IPAddress localIp;
-    wl_status_t status;
     WiFiClient client;
 public:
     WifiModule();

@@ -10,9 +10,8 @@ class Button : public Subject
         int pin;
         bool currentState;
         bool previousState;
-        MqttModule* mqttModule;
     public:
-        Button(int pinNumber,MqttModule* _mqttModule);
+        Button(int pinNumber, PubSubClient* _client);
         void observer(); 
         void begin();
         ~Button();      

@@ -20,3 +20,16 @@ void AttributesModule::inject(){
 void AttributesModule::invoke(const void* param){
   return;
 }
+
+// String AttributesModule::generateRandomString(int length){
+//   const char charset[] = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM123456789!@#$%^&*()";
+//   const int charsetLength= sizeof(charset)-1;
+//   String randomString= "";
+
+//   for(int i=0;i<length;i++){
+//     int index=random(0,charsetLength);
+//     randomString+= charset[index];
+//   }
+
+//   return randomString;
+// }

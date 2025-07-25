@@ -16,6 +16,7 @@
 #include "../lib/module/SwitchButtonModule.h"
 #include "../lib/module/SwitchButtonModule.h"
 #include "../lib/task/WifiConnectionTask.h"
+#include "../lib/task/MqttConnectionTask.h"
 #include "../lib/context/StateContext.h"
 #include "../lib/module/MqttModule.h"
 
@@ -24,17 +25,16 @@ SwitchButtonModule switchButtonModule(51);
 Button buttonModule(50);
 #endif
 
-
-
 BmeModule bmeModule(0x76);
 GpsModule gpsModule;
 AttributesModule attributesModule;
 WifiModule wifiModule;
-MqttModule mqttModule(&wifiModule);
+WiFiClient espClient;
+PubSubClient mqttClient(espClient);
 
 #ifdef ESP32
 SwitchButtonModule switchButtonModule(19);
-Button buttonModule(12, &mqttModule);
+Button buttonModule(12, &mqttClient);
 #endif
 
 SensorService bmeSensorService(&bmeModule);
@@ -55,7 +55,7 @@ Task injectorTask(5000, TASK_FOREVER, []()
                   { InjectSensorTask::injectSensorTask(services, 3); }, &runner);
 
 Task packageSenderTask(100, TASK_FOREVER, []()
-                       { PackageSenderTask::sendPackage(&mqttModule); }, &runner);
+                       { PackageSenderTask::sendPackage(&mqttClient); }, &runner);
 
 Task buttonObserverTask(100, TASK_FOREVER, []()
                         { buttonModule.observer(); }, &runner);
@@ -63,8 +63,12 @@ Task buttonObserverTask(100, TASK_FOREVER, []()
 Task switchObserverTask(100, TASK_FOREVER, []()
                         { switchButtonModule.observer(); }, &runner);
 
-Task wifiConnectionTask(100, TASK_FOREVER,[](){
+Task wifiConnectionTask(1000, TASK_FOREVER,[](){
   WifiConnectionTask::wifiConnectionTask(&wifiModule);
+}, &runner);
+
+Task mqttConnectionTask(500, TASK_FOREVER,[](){
+  MqttConnectionTask::mqttConnectionTask(&mqttClient);
 }, &runner);
 
 Task stateObserverTask(100, TASK_FOREVER, []()
@@ -77,29 +81,29 @@ Task stateObserverTask(100, TASK_FOREVER, []()
     packageSenderTask.disable();
     buttonObserverTask.enableDelayed(100);
   } }, &runner);
-
 // AttributesModule sudah melakukan invoke saat setup
 
 void setup()
 {
-  #ifdef ARDUINO_ATMEGA2560
+#ifdef ARDUINO_ATMEGA2560
   Serial.begin(115200);
   Serial1.begin(9600);
   Serial2.begin(115200);
-  #endif
+#endif
 
-  #ifdef ESP32
+#ifdef ESP32
   Serial.begin(115200);
   Serial1.begin(9600, SERIAL_8N1, 16, 17);
   Serial2.begin(115200);
-  #endif
-
+#endif
 
   Serial.println("setup begin");
 
   bmeSensorService.setup();
   gpsSensorService.setup();
   attributesSensorService.setup();
+  wifiModule.setup();
+  MqttModule::setup(&mqttClient);
 
   Serial.println("adding Tasks...");
 
@@ -111,7 +115,8 @@ void setup()
   runner.addTask(switchObserverTask);
   runner.addTask(stateObserverTask);
   runner.addTask(wifiConnectionTask);
-
+  runner.addTask(mqttConnectionTask);
+  
   injectorTask.enable();
   gpsInvokerTask.enable();
   bmeInvokerTask.enable();
@@ -120,9 +125,8 @@ void setup()
   switchObserverTask.enable();
   stateObserverTask.enable();
   wifiConnectionTask.enable();
+  mqttConnectionTask.enable();
 
-  Serial.println("Setup completed successfully");
-  delay(1000);
 }
 
 void loop()
